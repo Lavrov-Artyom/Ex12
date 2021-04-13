@@ -44,13 +44,11 @@ void DoorTimeAdapter::Timeout() const {
 
 void Timer::RegistTimer(const DoorTimeAdapter& _dtAdapter, unsigned int _sec) {
     SleepTimer(_sec);
-    
     _dtAdapter.Timeout();
 }
 
 void Timer::SleepTimer(unsigned int _sec) {
     time_t end = time(nullptr) + _sec;
-    
     while (end - time(nullptr)) {
     }
 }
