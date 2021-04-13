@@ -13,16 +13,16 @@ public:
     virtual void unlock() = 0;
 };
 
-class DTAdapter;
+class DoorTimeAdapter;
 
-class TDoor : public Door {
+class TimedDoor : public Door {
 private:
     bool open;
     unsigned int sec;
-    DTAdapter* dtAdapter;
+    DoorTimeAdapter* dtAdapter;
 
 public:
-    explicit TDoor(unsigned int _sec);
+    explicit TimedDoor(unsigned int _sec);
     bool isOpen() override;
     void throwState();
     void lock() override;
@@ -30,23 +30,23 @@ public:
     void DoorTimeOut() const;
 };
 
-class TClient {
+class TimerClient {
 public:
     virtual void Timeout() const = 0;
 };
 
-class DTAdapter : public TClient {
+class DoorTimeAdapter : public TimerClient {
 private:
-    const TDoor& tDoor;
+    const TimedDoor& tDoor;
 public:
-    explicit DTAdapter(const TDoor& _tDoor);
+    explicit DoorTimeAdapter(const TimedDoor& _tDoor);
     void Timeout() const override;
 };
 
 
 class Timer {
 public:
-    void RegistTimer(const DTAdapter& _dtAdapter, unsigned int _sec);
+    void RegistTimer(const DoorTimeAdapter& _dtAdapter, unsigned int _sec);
     void SleepTimer(unsigned int _sec);
 };
 

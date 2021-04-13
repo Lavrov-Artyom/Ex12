@@ -5,7 +5,7 @@
 #include "TimedDoor.h"
 
 int main() {
-    TDoor* Door = new TDoor(5);
+    TimedDoor* Door = new TimedDoor(5);
 
     try {
         Door->unlock();

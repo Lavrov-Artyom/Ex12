@@ -3,26 +3,26 @@
 #include "TimedDoor.h"
 #include <iostream>
 
-TDoor::TDoor(unsigned int _sec)
+TimedDoor::TimedDoor(unsigned int _sec)
     : open(false), sec(_sec) {
-    dtAdapter = new DTAdapter(*this);
+    dtAdapter = new DoorTimeAdapter(*this);
 }
 
-void TDoor::lock() {
+void TimedDoor::lock() {
     open = false;
 }
 
-void TDoor::unlock() {
+void TimedDoor::unlock() {
     open = true;
     Timer timer;
     timer.RegistTimer(*dtAdapter, sec);
 }
 
-bool TDoor::isOpen() {
+bool TimedDoor::isOpen() {
     return open;
 }
 
-void TDoor::throwState() {
+void TimedDoor::throwState() {
     if (isOpen()) {
         throw std::string("the door is opened!");
     }
@@ -31,19 +31,19 @@ void TDoor::throwState() {
     }
 }
 
-void TDoor::DoorTimeOut() const {
+void TimedDoor::DoorTimeOut() const {
     throw std::string("close the door!");
 }
 
-DTAdapter::DTAdapter(const TDoor& _tDoor)
+DoorTimeAdapter::DoorTimeAdapter(const TimedDoor& _tDoor)
     : tDoor(_tDoor) {
 }
 
-void DTAdapter::Timeout() const {
+void DoorTimeAdapter::Timeout() const {
     tDoor.DoorTimeOut();
 }
 
-void Timer::RegistTimer(const DTAdapter& _dtAdapter,
+void Timer::RegistTimer(const DoorTimeAdapter& _dtAdapter,
     unsigned int _sec) {
     SleepTimer(_sec);
     _dtAdapter.Timeout();
