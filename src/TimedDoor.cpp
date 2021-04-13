@@ -8,14 +8,14 @@ TimedDoor::TimedDoor(unsigned int _sec)
     dtAdapter = new DoorTimeAdapter(*this);
 }
 
-void TimedDoor::lock() {
-    open = false;
-}
-
 void TimedDoor::unlock() {
     open = true;
     Timer timer;
     timer.RegistTimer(*dtAdapter, sec);
+}
+
+void TimedDoor::lock() {
+    open = false;
 }
 
 bool TimedDoor::isOpen() {
@@ -25,32 +25,32 @@ bool TimedDoor::isOpen() {
 void TimedDoor::throwState() {
     if (isOpen()) {
         throw std::string("the door is opened!");
-    }
-    else {
+    } else {
         throw std::string("the door is closed!");
     }
-}
-
-void TimedDoor::DoorTimeOut() const {
-    throw std::string("close the door!");
 }
 
 DoorTimeAdapter::DoorTimeAdapter(const TimedDoor& _tDoor)
     : tDoor(_tDoor) {
 }
 
+void TimedDoor::DoorTimeOut() const {
+    throw std::string("close the door!");
+}
+
 void DoorTimeAdapter::Timeout() const {
     tDoor.DoorTimeOut();
 }
 
-void Timer::RegistTimer(const DoorTimeAdapter& _dtAdapter,
-    unsigned int _sec) {
+void Timer::RegistTimer(const DoorTimeAdapter& _dtAdapter, unsigned int _sec) {
     SleepTimer(_sec);
+    
     _dtAdapter.Timeout();
 }
 
 void Timer::SleepTimer(unsigned int _sec) {
     time_t end = time(nullptr) + _sec;
+    
     while (end - time(nullptr)) {
     }
 }
