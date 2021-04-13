@@ -8,7 +8,6 @@
 
 class Door {
 public:
-    virtual void Timeout() = 0;
     virtual bool isOpen() = 0;
     virtual void lock() = 0;
     virtual void unlock() = 0;

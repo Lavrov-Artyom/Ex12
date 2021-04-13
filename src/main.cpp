@@ -10,9 +10,7 @@ int main() {
     try {
         Door->unlock();
         Door->throwState();
-    }
-
-    catch (std::string Note) {
+    } catch (std::string Note) {
         std::cout << Note << std::endl;
     }
     return 0;
